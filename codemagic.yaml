@@ -1,23 +1,21 @@
 workflows:
-  default-workflow:
-    name: Build Blossom Store App
+  build-apk:
+    name: Build APK using EAS
     max_build_duration: 30
     environment:
       vars:
         NODE_ENV: development
-      flutter: stable
-      xcode: latest
+      node: latest
     scripts:
       - name: Install dependencies
         script: |
           npm install
-      - name: Build the app
+          npm install -g eas-cli
+      - name: EAS Build APK
         script: |
-          npx expo install
-          npx expo prebuild
-          npx expo run:android
+          eas build -p android --profile preview --non-interactive
     artifacts:
-      - android/app/build/outputs/**/*.apk
+      - dist/**/*.apk
     publishing:
       email:
         recipients:
