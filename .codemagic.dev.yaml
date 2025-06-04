@@ -1,0 +1,34 @@
+workflows:
+  dev-build:
+    name: Development Build
+    instance_type: mac_mini
+    environment:
+      flutter: stable
+      xcode: latest
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - build/
+    scripts:
+      - name: Clean project
+        script: flutter clean
+
+      - name: Install dependencies
+        script: flutter pub get
+
+      - name: Analyze project
+        script: flutter analyze
+
+      - name: Run unit tests
+        script: flutter test
+
+      - name: Build debug APK
+        script: flutter build apk --debug
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-debug.apk
+
+    publishing:
+      email:
+        recipients:
+          - aminashukri21@gmail.com
